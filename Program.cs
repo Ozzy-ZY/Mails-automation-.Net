@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using MailKit.Net.Smtp;
+﻿using MailKit.Net.Smtp;
 using MimeKit;
 
 namespace Mails
