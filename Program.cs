@@ -7,12 +7,14 @@ namespace Mails
     {
         public static void Main()
         {
-            string? emailAddress, password, subject, bodyPathTxt, receiverMailsTxtPath, attachmentTxtPath, body;
+            string? emailAddress, password, subject, bodyPathTxt, receiverMailsTxtPath, attachmentTxtPath, body, displayname;
             int attachmentsPerEmail;
             Console.Write("Email Address: ");
             emailAddress = Console.ReadLine();
             Console.Write("In App Password: ");
             password = Console.ReadLine();
+            Console.Write("Display name: ");
+            displayname = Console.ReadLine();
             Console.Write("Subject: ");
             subject = Console.ReadLine();
             Console.Write("Body Path: ");
@@ -38,7 +40,7 @@ namespace Mails
                 for (int i = 0; i < recipientEmails.Length; i++)
                 {
                     MimeMessage message = new MimeMessage();
-                    message.From.Add(new MailboxAddress("Ozzy", emailAddress));
+                    message.From.Add(new MailboxAddress(displayname, emailAddress));
                     message.To.Add(MailboxAddress.Parse(recipientEmails[i]));
                     message.Subject = subject;
                     var bodyMultipart = new Multipart("plain");
@@ -71,8 +73,8 @@ namespace Mails
                         client.Disconnect(true);
                     }
                 }
-
-                Console.WriteLine("All Good buddy!");
+                Console.WriteLine("All Good buddy!\npress any key to terminate ");
+                Console.ReadKey();
             }
         }
     }
