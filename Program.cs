@@ -7,7 +7,7 @@ namespace Mails
     {
         public static void Main()
         {
-            string? emailAddress, password, subject, bodyPathTxt, receiverMailsTxtPath, attachmentTxtPath, body, displayname;
+            string? emailAddress, password, subject, bodyPathTxt, receiverMailsTxtPath, attachmentTxtPath, body, displayname,fileConfig;
             int attachmentsPerEmail;
             Console.Write("Email Address: ");
             emailAddress = Console.ReadLine();
@@ -26,6 +26,8 @@ namespace Mails
                 Console.Write("Number of attachments per email: ");
 
                 attachmentsPerEmail = int.Parse(Console.ReadLine() ?? string.Empty);
+                Console.Write("Enter the file format: *pdf, docx, etc");
+                fileConfig = Console.ReadLine();
                 Console.Write("Path of receivers mails txt file: ");
                 receiverMailsTxtPath = Console.ReadLine();
                 Console.Write("Path of the txt file including attachments paths: ");
@@ -54,7 +56,7 @@ namespace Mails
 
                     for (int j = 0; j < attachmentsPerEmail; j++)
                     {
-                        var atta = new MimePart("application", "pdf")
+                        var atta = new MimePart("application", fileConfig)
                         {
                             Content = new MimeContent(File.OpenRead(attachmentPaths[i * attachmentsPerEmail + j])),
                             ContentDisposition = new ContentDisposition(ContentDisposition.Attachment),
