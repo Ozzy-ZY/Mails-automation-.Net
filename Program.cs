@@ -7,31 +7,29 @@ namespace Mails
     {
         public static void Main()
         {
-            string? emailAddress, password, subject, bodyPathTxt, receiverMailsTxtPath, attachmentTxtPath, body, displayname,fileConfig;
-            int attachmentsPerEmail;
             Console.Write("Email Address: ");
-            emailAddress = Console.ReadLine();
+            var emailAddress = Console.ReadLine();
             Console.Write("In App Password: ");
-            password = Console.ReadLine();
+            var password = Console.ReadLine();
             Console.Write("Display name: ");
-            displayname = Console.ReadLine();
+            var displayname = Console.ReadLine();
             Console.Write("Subject: ");
-            subject = Console.ReadLine();
+            var subject = Console.ReadLine();
             Console.Write("Body Path: ");
-            bodyPathTxt = Console.ReadLine();
+            var bodyPathTxt = Console.ReadLine();
             if (bodyPathTxt != null)
             {
                 using var reader = new StreamReader(bodyPathTxt);
-                body = reader.ReadToEnd();
+                var body = reader.ReadToEnd();
                 Console.Write("Number of attachments per email: ");
 
-                attachmentsPerEmail = int.Parse(Console.ReadLine() ?? string.Empty);
+                var attachmentsPerEmail = int.Parse(Console.ReadLine() ?? string.Empty);
                 Console.Write("Enter the file format: *pdf, docx, etc");
-                fileConfig = Console.ReadLine();
+                var fileConfig = Console.ReadLine();
                 Console.Write("Path of receivers mails txt file: ");
-                receiverMailsTxtPath = Console.ReadLine();
+                var receiverMailsTxtPath = Console.ReadLine();
                 Console.Write("Path of the txt file including attachments paths: ");
-                attachmentTxtPath = Console.ReadLine();
+                var attachmentTxtPath = Console.ReadLine();
                 if (attachmentTxtPath == null || receiverMailsTxtPath == null)
                 {
                     throw new ArgumentNullException(
@@ -66,14 +64,12 @@ namespace Mails
                     }
 
                     message.Body = multipart;
-                    using (SmtpClient client = new SmtpClient())
-                    {
-                        client.Connect("smtp.gmail.com", 465, true);
-                        client.Authenticate(emailAddress, password);
-                        client.Send(message);
-                        Console.WriteLine($"Email sent to {recipientEmails[i]}!");
-                        client.Disconnect(true);
-                    }
+                    using SmtpClient client = new SmtpClient();
+                    client.Connect("smtp.gmail.com", 465, true);
+                    client.Authenticate(emailAddress, password);
+                    client.Send(message);
+                    Console.WriteLine($"Email sent to {recipientEmails[i]}!");
+                    client.Disconnect(true);
                 }
                 Console.WriteLine("All Good buddy!\npress any key to terminate ");
                 Console.ReadKey();
